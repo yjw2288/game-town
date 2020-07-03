@@ -1,4 +1,4 @@
-package com.gametown.web.store;
+package com.gametown.api.store;
 
 import com.gametown.store.service.StoreDto;
 import com.gametown.store.service.StoreService;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/stores")
-public class StoreController {
+public class StoreApiController {
 
     @Autowired
     private StoreService storeService;

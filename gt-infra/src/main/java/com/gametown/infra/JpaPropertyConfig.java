@@ -1,6 +1,5 @@
 package com.gametown.infra;
 
-import com.querydsl.core.annotations.Config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,0 +1,6 @@
+dependencies {
+    implementation project(":gt-account-core")
+    implementation project(":gt-store-core")
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}
