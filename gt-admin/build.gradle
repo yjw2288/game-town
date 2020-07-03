@@ -1,5 +1,6 @@
 dependencies {
     implementation project(":gt-account-core")
+    implementation project(":gt-store-core")
 
     implementation 'pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'

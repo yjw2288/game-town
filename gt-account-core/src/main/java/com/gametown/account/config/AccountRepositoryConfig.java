@@ -1,4 +1,4 @@
-package com.gametown.config;
+package com.gametown.account.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,38 +22,32 @@ import java.util.Objects;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "entityManagerFactory",
-        transactionManagerRef = "transactionManager",
-        basePackages = "com.gametown"
+        entityManagerFactoryRef = "accountEntityManagerFactory",
+        transactionManagerRef = "accountTransactionManager",
+        basePackages = "com.gametown.account"
 )
-public class RepositoryConfig {
+public class AccountRepositoryConfig {
     @Autowired
-    @Qualifier("lazyDataSource")
-    private DataSource lazyDataSource;
+    @Qualifier("accountLazyDataSource")
+    private DataSource accountLazyDataSource;
 
-    @Bean(name = "jpaProperties")
-    @ConfigurationProperties("spring.jpa")
-    public Map<String, String> jpaProperties() {
-        return new HashMap<>();
-    }
-
-    @Bean
-    public EntityManagerFactoryBuilder entityManagerFactoryBuilder(@Qualifier("jpaProperties") Map<String, String> jpaProperties) {
+    @Bean(name = "accountEntityManagerFactoryBuilder")
+    public EntityManagerFactoryBuilder accountEntityManagerFactoryBuilder(@Qualifier("jpaProperties") Map<String, String> jpaProperties) {
         return new EntityManagerFactoryBuilder(new HibernateJpaVendorAdapter(), jpaProperties, null);
     }
 
     @Primary
-    @Bean(name = "entityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder entityManagerFactoryBuilder) {
+    @Bean(name = "accountEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(@Qualifier("accountEntityManagerFactoryBuilder") EntityManagerFactoryBuilder entityManagerFactoryBuilder) {
         return entityManagerFactoryBuilder
-                .dataSource(lazyDataSource)
-                .packages("com.gametown")
+                .dataSource(accountLazyDataSource)
+                .packages("com.gametown.account")
                 .build();
     }
 
     @Primary
-    @Bean("transactionManager")
-    public PlatformTransactionManager transactionManager(EntityManagerFactoryBuilder builder) {
+    @Bean("accountTransactionManager")
+    public PlatformTransactionManager accountTransactionManager(@Qualifier("accountEntityManagerFactoryBuilder") EntityManagerFactoryBuilder builder) {
         return new JpaTransactionManager(Objects.requireNonNull(entityManagerFactory(builder).getObject()));
     }
 }

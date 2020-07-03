@@ -1,4 +1,4 @@
-package com.gametown.config;
+package com.gametown.account.config;
 
 import com.gametown.infra.ReplicationRoutingDataSource;
 import com.zaxxer.hikari.HikariDataSource;
@@ -16,11 +16,11 @@ import java.util.Map;
 
 @Configuration
 @EnableConfigurationProperties
-public class DataSourceConfig {
+public class AccountDataSourceConfig {
 
-    @Bean(name = "routingDataSource")
-    public DataSource routingDataSource(@Qualifier("writeDataSource") DataSource writeDataSource,
-                                        @Qualifier("readDataSource") DataSource readDataSource) {
+    @Bean(name = "accountRoutingDataSource")
+    public DataSource accountRoutingDataSource(@Qualifier("accountWriteDataSource") DataSource writeDataSource,
+                                        @Qualifier("accountReadDataSource") DataSource readDataSource) {
         ReplicationRoutingDataSource routingDataSource = new ReplicationRoutingDataSource();
 
         Map<Object, Object> dataSourceMap = new HashMap<Object, Object>();
@@ -32,22 +32,22 @@ public class DataSourceConfig {
         return routingDataSource;
     }
 
-    @Bean(name = "lazyDataSource")
-    public DataSource lazyDataSource(@Qualifier("routingDataSource") DataSource routingDataSource) {
+    @Bean(name = "accountLazyDataSource")
+    public DataSource lazyDataSource(@Qualifier("accountRoutingDataSource") DataSource routingDataSource) {
         return new LazyConnectionDataSourceProxy(routingDataSource);
     }
 
-    @Bean(name = "writeDataSource")
-    @ConfigurationProperties("spring.datasource.write")
-    public DataSource writeDataSource() {
+    @Bean(name = "accountWriteDataSource")
+    @ConfigurationProperties("spring.datasource.account.write")
+    public DataSource accountWriteDataSource() {
         return DataSourceBuilder
                 .create()
                 .type(HikariDataSource.class)
                 .build();
     }
 
-    @Bean(name = "readDataSource")
-    @ConfigurationProperties("spring.datasource.read")
+    @Bean(name = "accountReadDataSource")
+    @ConfigurationProperties("spring.datasource.account.read")
     public DataSource readDataSource() {
         return DataSourceBuilder
                 .create()

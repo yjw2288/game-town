@@ -1,4 +1,6 @@
 rootProject.name = 'game-town'
 
+include 'gt-infra'
 include 'gt-account-core'
-include 'game-town-admin'
+include 'gt-store-core'
+include 'gt-admin'
