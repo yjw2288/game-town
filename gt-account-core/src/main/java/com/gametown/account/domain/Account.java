@@ -18,12 +18,13 @@ public class Account {
     @Column(name = "user_id")
     private String userId;
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "email")
     private String email;
 
-    @Column(name = "password")
-    private String password;
 }
