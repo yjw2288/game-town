@@ -1,7 +1,7 @@
 package com.gametown.web.account;
 
-import com.gametown.account.service.AccountDto;
-import com.gametown.account.service.AccountService;
+import com.gametown.account.domain.AccountDto;
+import com.gametown.account.domain.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

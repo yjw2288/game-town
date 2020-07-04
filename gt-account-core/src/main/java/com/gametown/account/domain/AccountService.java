@@ -1,6 +1,5 @@
-package com.gametown.account.service;
+package com.gametown.account.domain;
 
-import com.gametown.account.domain.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +16,7 @@ public class AccountService {
     @Transactional(value = "accountTransactionManager", readOnly = true)
     public List<AccountDto> accounts() {
         return accountRepository.findAll()
-                .stream().map(account -> {
-                    AccountDto accountDto = new AccountDto();
-                    accountDto.setAccountId(account.getAccountId());
-                    accountDto.setName(account.getName());
-                    return accountDto;
-                }).collect(Collectors.toList());
+                .stream().map(AccountDto::from)
+                .collect(Collectors.toList());
     }
 }
