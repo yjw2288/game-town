@@ -1,5 +1,6 @@
 package com.gametown.account.domain;
 
+import com.gametown.account.domain.join.AccountNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,5 +19,12 @@ public class AccountService {
         return accountRepository.findAll()
                 .stream().map(AccountDto::from)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(value = "accountTransactionManager", readOnly = true)
+    public AccountDto findById(long accountId) {
+        return accountRepository.findById(accountId)
+                .map(AccountDto::from)
+                .orElseThrow(AccountNotFoundException::new);
     }
 }

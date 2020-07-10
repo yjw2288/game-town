@@ -12,13 +12,22 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "store")
+@Table(name = "stores")
 public class Store {
     @Id
     @Column(name = "store_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long storeId;
 
+    @Column(name = "store_code", nullable = false)
+    private String storeCode;
+
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "address", nullable = false)
+    private String address;
+
+    @Column(name = "address", nullable = false)
+    private long masterAccountId;
 }

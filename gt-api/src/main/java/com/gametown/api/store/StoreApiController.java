@@ -1,23 +1,20 @@
 package com.gametown.api.store;
 
-import com.gametown.store.service.StoreDto;
-import com.gametown.store.service.StoreService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.gametown.api.login.LoginAccount;
+import com.gametown.store.domain.StoreForm;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/stores")
+@AllArgsConstructor
 public class StoreApiController {
 
-    @Autowired
-    private StoreService storeService;
+    private final StoreApiService storeApiService;
 
-    @GetMapping
-    public List<StoreDto> stores() {
-        return storeService.stores();
+    public StoreCreateView createStore(LoginAccount loginAccount, @RequestBody StoreForm storeForm) {
+        return storeApiService.create(loginAccount, storeForm);
     }
 }
