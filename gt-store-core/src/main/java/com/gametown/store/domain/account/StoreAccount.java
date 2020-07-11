@@ -8,8 +8,8 @@ import lombok.ToString;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "store_accounts")
+//@Entity
+//@Table(name = "store_accounts")
 @Getter
 @Setter
 @ToString(exclude = "store")
