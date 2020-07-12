@@ -1,3 +1,35 @@
+= RESTful Notes API Guide
+Andy Wilkinson;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+[[overview]]
+== Overview
+
+[[overview-http-status-codes]]
+=== HTTP status codes
+
+RESTful 방식의 응답코드 정리표 입니다.
+GameTown 에서는 아래와 같은 응답코드 위주로 사용합니다.
+
+|===
+| Status code | Usage
+
+| `200 OK`
+| 성공
+
+
+| `400 Bad Request`
+| GameTown 에서, 사용자 입력 validation 관련 모든 처리는
+400 에러로 반환합니다.
+
+| `500 Internal Error`
+| 예상하지 못한 에러입니다. 발생 시, 개발팀에 문의주세요.
+|===
 
 = 회원
 
@@ -23,14 +55,16 @@ include::{snippets}/account-join/request-fields.adoc[]
 
 include::{snippets}/account-join/response-fields.adoc[]
 
-== 회원 가입 에러
+== 에러
+
+=== 동일 ID 가입
 
 동일한 id 로 회원가입 요청이 온 경우 에러가 발생
 
-=== response
+==== response
 
 include::{snippets}/account-join-fail-duplicate-account/http-response.adoc[]
 
-=== request 필드
+==== request 필드
 
 include::{snippets}/account-join-fail-duplicate-account/response-fields.adoc[]
