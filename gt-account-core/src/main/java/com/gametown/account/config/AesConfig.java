@@ -1,6 +1,6 @@
-package com.gametown.api.account.config;
+package com.gametown.account.config;
 
-import com.gametown.api.account.enc.AES256Machine;
+import com.gametown.account.enc.AES256Machine;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

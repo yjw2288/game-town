@@ -1,6 +1,6 @@
 package com.gametown.api.login;
 
-import com.gametown.api.account.enc.AES256Machine;
+import com.gametown.account.enc.AES256Machine;
 import lombok.AllArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;

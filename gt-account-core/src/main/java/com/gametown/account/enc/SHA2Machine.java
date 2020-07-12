@@ -1,14 +1,16 @@
-package com.gametown.account.utils;
+package com.gametown.account.enc;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 @Slf4j
-public class SHA2 {
-    public static String getSHA256(String input) {
+@Component
+public class SHA2Machine {
+    public String getSHA256(String input) {
         String toReturn = null;
         try {
             String salt = "G_T_S";

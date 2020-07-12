@@ -1,13 +1,11 @@
 package com.gametown.api.account;
 
 import com.gametown.account.domain.join.AccountJoinService;
+import com.gametown.account.domain.join.AccountLoginService;
 import com.gametown.account.domain.join.JoinFormDto;
-import com.gametown.api.account.enc.AES256Machine;
+import com.gametown.exception.GameTownException;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/accounts")
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountApiController {
 
     private final AccountJoinService accountJoinService;
-    private final AES256Machine aes256Machine;
+    private final AccountLoginService accountLoginService;
 
     @PostMapping("/join")
     public JoinView join(@RequestBody JoinFormDto joinForm) {
@@ -25,10 +23,10 @@ public class AccountApiController {
 
     @PostMapping("/login")
     public LoginView login(@RequestBody LoginFormDto loginFormDto) {
-        long loginId =
-                accountJoinService.login(loginFormDto.getUserId(), loginFormDto.getPassword());
+        String sessionKey =
+                accountLoginService.login(loginFormDto.getUserId(), loginFormDto.getPassword());
         LoginView loginView = new LoginView();
-        loginView.setSessionKey(aes256Machine.aesEncode(loginId));
+        loginView.setSessionKey(sessionKey);
         return loginView;
     }
 }
