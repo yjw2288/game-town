@@ -1,6 +1,8 @@
 package com.gametown.api.login;
 
 import com.gametown.account.enc.AES256Machine;
+import com.gametown.exception.ErrorCode;
+import com.gametown.exception.GameTownException;
 import lombok.AllArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -21,6 +23,10 @@ public class LoginArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         String loginCode = webRequest.getHeader("login");
-        return Long.parseLong(aes256Machine.aesDecode(loginCode));
+        if (loginCode == null) {
+            throw new GameTownException(ErrorCode.LOGIN_REQUIRED);
+        }
+
+        return new LoginAccount(Long.parseLong(aes256Machine.aesDecode(loginCode)));
     }
 }
