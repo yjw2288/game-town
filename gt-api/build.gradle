@@ -13,10 +13,10 @@ asciidoctor {
 task copyRestDocs(type: Copy) {
     dependsOn asciidoctor
     from "${asciidoctor.outputDir}/html5"
-    into "${sourceSets.main.output.resourcesDir}/static/docs"
+    into file("src/main/resources/static/docs")
 }
 
-bootRun {
+bootJar {
     dependsOn copyRestDocs
 }
 
