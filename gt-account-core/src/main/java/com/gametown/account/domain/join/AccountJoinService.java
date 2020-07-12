@@ -2,7 +2,9 @@ package com.gametown.account.domain.join;
 
 import com.gametown.account.domain.Account;
 import com.gametown.account.domain.AccountRepository;
-import com.gametown.account.utils.SHA2;
+import com.gametown.account.enc.SHA2Machine;
+import com.gametown.exception.ErrorCode;
+import com.gametown.exception.GameTownException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,22 +15,21 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountJoinService {
 
     private final AccountRepository accountRepository;
+    private final SHA2Machine sha2Machine;
 
     @Transactional(value = "accountTransactionManager")
     public String join(JoinFormDto joinForm) {
+        boolean existsAccount = accountRepository.findByUserId(joinForm.getUserId())
+                .isPresent();
+        if(existsAccount) {
+            throw new GameTownException(ErrorCode.ACCOUNT_ALREADY_EXISTS);
+        }
+
         Account account = new Account();
         account.setUserId(joinForm.getUserId());
         account.setEmail(joinForm.getEmail());
         account.setName(joinForm.getName());
-        account.setPassword(SHA2.getSHA256(joinForm.getPassword()));
-
+        account.setPassword(sha2Machine.getSHA256(joinForm.getPassword()));
         return accountRepository.save(account).getUserId();
-    }
-
-    @Transactional(value = "accountTransactionManager", readOnly = true)
-    public long login(String userId, String password) {
-        return accountRepository.findByUserId(userId)
-                .map(Account::getAccountId)
-                .orElseThrow(AccountNotFoundException::new);
     }
 }
