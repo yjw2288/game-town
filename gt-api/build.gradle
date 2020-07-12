@@ -6,27 +6,25 @@ ext {
     snippetsDir = file('build/generated-snippets')
 }
 
-test {
-    outputs.dir snippetsDir
+asciidoctor {
+    dependsOn test
 }
 
 bootJar {
     dependsOn asciidoctor
     from ("${asciidoctor.outputDir}/html5") {
-        into 'static/docs'
+        into "static/docs"
     }
 }
 
-asciidoctor {
-    inputs.dir snippetsDir
-    dependsOn test
-}
-
 dependencies {
-    implementation project(":gt-account-core")
-    implementation project(":gt-store-core")
+    compile project(":gt-account-core")
+    compile project(":gt-store-core")
 
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.3.RELEASE'
 }

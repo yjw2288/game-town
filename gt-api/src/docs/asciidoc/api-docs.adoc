@@ -1,0 +1,13 @@
+
+= 회원
+
+== 회원 가입
+
+include::{snippets}/account-join/curl-request.adoc[]
+include::{snippets}/account-join/http-request.adoc[]
+include::{snippets}/account-join/http-response.adoc[]
+include::{snippets}/account-join/httpie-request.adoc[]
+include::{snippets}/account-join/request-body.adoc[]
+include::{snippets}/account-join/request-fields.adoc[]
+include::{snippets}/account-join/response-body.adoc[]
+include::{snippets}/account-join/response-fields.adoc[]

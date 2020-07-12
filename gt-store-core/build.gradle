@@ -36,5 +36,5 @@ configurations {
 }
 
 dependencies {
-    implementation project(":gt-infra")
+    compile project(":gt-infra")
 }

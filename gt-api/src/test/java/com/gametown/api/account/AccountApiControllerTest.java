@@ -7,45 +7,57 @@ import com.gametown.api.exception.ErrorController;
 import com.gametown.exception.ErrorCode;
 import com.gametown.exception.GameTownException;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.JUnitRestDocumentation;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import static com.gametown.ApiDocumentUtils.getDocumentRequest;
+import static com.gametown.ApiDocumentUtils.getDocumentResponse;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountApiControllerTest {
     private MockMvc mockMvc;
 
+    @Rule
+    public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
+
     @InjectMocks
     private AccountApiController accountApiController;
-
-    private ObjectMapper objectMapper;
 
     @Mock
     private AccountJoinService accountJoinService;
 
+    private ObjectMapper objectMapper;
+
     @Before
     public void setup() {
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(accountApiController)
+        this.mockMvc = MockMvcBuilders.standaloneSetup(accountApiController)
+                .apply(documentationConfiguration(restDocumentation))
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
                 .setControllerAdvice(new ErrorController())
                 .alwaysDo(print())
                 .build();
-        objectMapper = new ObjectMapper();
+        this.objectMapper = new ObjectMapper();
     }
 
     @Test
@@ -66,11 +78,21 @@ public class AccountApiControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().is(200))
-                .andExpect(jsonPath("$.userId", is(equalTo("한글"))));
+                .andExpect(jsonPath("$.userId", is(equalTo("한글"))))
+                .andDo(document("account-join", getDocumentRequest(), getDocumentResponse(),
+                        requestFields(
+                                fieldWithPath("userId").type(JsonFieldType.STRING).description("로그인 아이디"),
+                                fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
+                                fieldWithPath("email").type(JsonFieldType.STRING).description("이메일")
+                        ),
+                        responseFields(
+                                fieldWithPath("userId").type(JsonFieldType.STRING).description("로그인 아이디")
+                        )));
     }
 
     @Test
-    public void testJoin_이미_존재_하는_회원() throws Exception {
+    public void testJoinAlreadyExistAccount() throws Exception {
         when(accountJoinService.join(any()))
                 .thenThrow(new GameTownException(ErrorCode.ACCOUNT_ALREADY_EXISTS));
 
