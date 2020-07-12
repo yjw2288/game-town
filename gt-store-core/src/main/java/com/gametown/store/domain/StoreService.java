@@ -20,11 +20,11 @@ public class StoreService {
     }
 
     @Transactional(value = "storeTransactionManager")
-    public StoreDto create(long accountId, StoreForm storeForm) {
+    public StoreDto create(long accountId, StoreFormDto storeFormDto) {
         Store store = new Store();
-        store.setStoreCode(storeForm.getStoreCode());
-        store.setAddress(storeForm.getAddress());
-        store.setName(storeForm.getName());
+        store.setStoreCode(storeFormDto.getStoreCode());
+        store.setAddress(storeFormDto.getAddress());
+        store.setName(storeFormDto.getName());
         store.setMasterAccountId(accountId);
         Store savedStore = storeRepository.save(store);
         return StoreDto.from(savedStore);

@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
 public class AesConfig {
     @Bean
     public AES256Machine aes256Machine() {
-        return new AES256Machine("sdjfkjsaklfjkwljfklwjlkfjwkejfljkljklwe");
+        return new AES256Machine("1fh8128hf892yc123y981ynv1892fnph", "dsjflajjwoiehf;N");
     }
 }

@@ -2,6 +2,7 @@ package com.gametown.api.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gametown.account.domain.join.AccountJoinService;
+import com.gametown.account.domain.join.AccountLoginService;
 import com.gametown.account.domain.join.JoinFormDto;
 import com.gametown.api.exception.ErrorController;
 import com.gametown.exception.ErrorCode;
@@ -46,6 +47,9 @@ public class AccountApiControllerTest {
 
     @Mock
     private AccountJoinService accountJoinService;
+
+    @Mock
+    private AccountLoginService accountLoginService;
 
     private ObjectMapper objectMapper;
 
@@ -117,6 +121,62 @@ public class AccountApiControllerTest {
                                 fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
                                 fieldWithPath("email").type(JsonFieldType.STRING).description("이메일")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.STRING).description("실패 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("실패 메시지")
+                        )));
+    }
+
+    @Test
+    public void testLogin() throws Exception {
+        LoginFormDto loginForm = new LoginFormDto();
+        loginForm.setUserId("userId");
+        loginForm.setPassword("password");
+
+        when(accountLoginService.login(loginForm.getUserId(), loginForm.getPassword()))
+                .thenReturn("abcd");
+
+        mockMvc.perform(
+                post("/accounts/login")
+                        .content(objectMapper.writeValueAsString(loginForm))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().is(200))
+                .andExpect(jsonPath("$.loginToken", is(equalTo("abcd"))))
+                .andDo(document("account-login", getDocumentRequest(), getDocumentResponse(),
+                        requestFields(
+                                fieldWithPath("userId").type(JsonFieldType.STRING).description("로그인 아이디"),
+                                fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
+                        ),
+                        responseFields(
+                                fieldWithPath("loginToken").type(JsonFieldType.STRING).description("로그인 세션 키")
+                        )));
+    }
+
+    @Test
+    public void testLoginNotExists() throws Exception {
+        LoginFormDto loginForm = new LoginFormDto();
+        loginForm.setUserId("userId");
+        loginForm.setPassword("password");
+
+        when(accountLoginService.login(loginForm.getUserId(), loginForm.getPassword()))
+                .thenThrow(new GameTownException(ErrorCode.ACCOUNT_NOT_FOUND));
+
+        mockMvc.perform(
+                post("/accounts/login")
+                        .content(objectMapper.writeValueAsString(loginForm))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().is(400))
+                .andExpect(jsonPath("$.code", is(equalTo(ErrorCode.ACCOUNT_NOT_FOUND.name()))))
+                .andExpect(jsonPath("$.message", is(equalTo(ErrorCode.ACCOUNT_NOT_FOUND.message))))
+                .andDo(document("account-login-fail-not-exist-account", getDocumentRequest(), getDocumentResponse(),
+                        requestFields(
+                                fieldWithPath("userId").type(JsonFieldType.STRING).description("로그인 아이디"),
+                                fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.STRING).description("실패 코드"),

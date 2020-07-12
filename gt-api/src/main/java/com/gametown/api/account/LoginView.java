@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoginView {
-    private String sessionKey;
+    private String loginToken;
 }

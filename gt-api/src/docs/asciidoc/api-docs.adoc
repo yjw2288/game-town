@@ -1,5 +1,4 @@
 = RESTful Notes API Guide
-Andy Wilkinson;
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -68,3 +67,67 @@ include::{snippets}/account-join-fail-duplicate-account/http-response.adoc[]
 ==== request 필드
 
 include::{snippets}/account-join-fail-duplicate-account/response-fields.adoc[]
+
+== 로그인
+
+=== curl
+
+include::{snippets}/account-login/curl-request.adoc[]
+
+=== request body
+
+include::{snippets}/account-login/http-request.adoc[]
+
+=== response
+
+include::{snippets}/account-login/http-response.adoc[]
+
+=== request 필드
+
+include::{snippets}/account-login/request-fields.adoc[]
+
+=== request 필드
+
+include::{snippets}/account-login/response-fields.adoc[]
+
+== 에러
+
+=== 존재하지 않는 유저
+
+존재하지 않는 사용자 접근 시, 에러 발생
+
+==== response
+
+include::{snippets}/account-login-fail-not-exist-account/http-response.adoc[]
+
+==== request 필드
+
+include::{snippets}/account-login-fail-not-exist-account/response-fields.adoc[]
+
+= 상점
+
+== 상점 개설
+
+=== curl
+
+include::{snippets}/store-create/curl-request.adoc[]
+
+=== request body
+
+include::{snippets}/store-create/http-request.adoc[]
+
+=== response
+
+include::{snippets}/store-create/http-response.adoc[]
+
+=== request 헤더 (로그인 토큰)
+
+include::{snippets}/store-create/request-headers.adoc[]
+
+=== request 필드
+
+include::{snippets}/store-create/request-fields.adoc[]
+
+=== request 필드
+
+include::{snippets}/store-create/response-fields.adoc[]
