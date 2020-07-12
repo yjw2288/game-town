@@ -1,6 +1,7 @@
 HELP.md
 .gradle
 build/
+api-docs.html
 !gradle/wrapper/gradle-wrapper.jar
 **/src/querydsl/**
 !**/src/main/**
