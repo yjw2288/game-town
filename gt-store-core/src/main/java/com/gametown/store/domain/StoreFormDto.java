@@ -1,12 +1,12 @@
 package com.gametown.store.domain;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
+@NoArgsConstructor
 public class StoreFormDto {
     private String storeCode;
     private String name;

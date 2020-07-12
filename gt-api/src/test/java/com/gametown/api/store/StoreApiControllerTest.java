@@ -6,6 +6,7 @@ import com.gametown.account.enc.AES256Machine;
 import com.gametown.api.exception.ErrorController;
 import com.gametown.api.login.LoginAccount;
 import com.gametown.store.domain.StoreDto;
+import com.gametown.store.domain.StoreFormDto;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -86,7 +87,7 @@ public class StoreApiControllerTest {
 
     @Test
     public void testCreateStore() throws Exception {
-        StoreForm storeForm = new StoreForm();
+        StoreFormDto storeForm = new StoreFormDto();
         storeForm.setName("store name");
         storeForm.setStoreCode("store code");
         storeForm.setAddress("address");

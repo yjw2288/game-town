@@ -6,6 +6,7 @@ import com.gametown.api.login.LoginAccount;
 import com.gametown.exception.ErrorCode;
 import com.gametown.exception.GameTownException;
 import com.gametown.store.domain.StoreDto;
+import com.gametown.store.domain.StoreFormDto;
 import com.gametown.store.domain.StoreService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,9 @@ public class StoreApiService {
     private final StoreService storeService;
     private final AccountService accountService;
 
-    public StoreCreateView create(LoginAccount loginAccount, StoreForm storeForm) {
+    public StoreCreateView create(LoginAccount loginAccount, StoreFormDto storeForm) {
         Optional<AccountDto> masterAccountDtoOp = accountService.findById(loginAccount.getAccountId());
-        StoreDto storeDto = storeService.create(loginAccount.getAccountId(), storeForm.toDto());
+        StoreDto storeDto = storeService.create(loginAccount.getAccountId(), storeForm);
 
         return masterAccountDtoOp
                 .map(masterAccountDto -> StoreCreateView.builder()

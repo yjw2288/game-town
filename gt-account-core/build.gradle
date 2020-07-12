@@ -38,7 +38,4 @@ configurations {
 dependencies {
     compile project(":gt-infra")
     compile 'commons-codec:commons-codec:1.14'
-    compile 'javax.validation:validation-api:2.0.1.Final'
-    compile 'org.hibernate:hibernate-validator:6.1.5.Final'
-    compile 'org.hibernate.validator:hibernate-validator-annotation-processor:6.1.5.Final'
 }
