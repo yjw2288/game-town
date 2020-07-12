@@ -5,7 +5,6 @@ import com.gametown.account.domain.AccountService;
 import com.gametown.api.login.LoginAccount;
 import com.gametown.exception.ErrorCode;
 import com.gametown.exception.GameTownException;
-import com.gametown.store.domain.StoreDto;
 import com.gametown.store.domain.StoreFormDto;
 import com.gametown.store.domain.StoreService;
 import lombok.AllArgsConstructor;
@@ -22,12 +21,10 @@ public class StoreApiService {
 
     public StoreCreateView create(LoginAccount loginAccount, StoreFormDto storeForm) {
         Optional<AccountDto> masterAccountDtoOp = accountService.findById(loginAccount.getAccountId());
-        StoreDto storeDto = storeService.create(loginAccount.getAccountId(), storeForm);
-
         return masterAccountDtoOp
                 .map(masterAccountDto -> StoreCreateView.builder()
                         .masterAccountDto(masterAccountDto)
-                        .storeDto(storeDto)
+                        .storeDto(storeService.create(loginAccount.getAccountId(), storeForm))
                         .build()).orElseThrow(() -> {
                             throw new GameTownException(ErrorCode.ACCOUNT_NOT_FOUND);
                         }
