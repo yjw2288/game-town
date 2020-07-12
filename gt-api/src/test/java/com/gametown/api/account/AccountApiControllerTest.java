@@ -110,6 +110,17 @@ public class AccountApiControllerTest {
         )
                 .andExpect(status().is(400))
                 .andExpect(jsonPath("$.code", is(equalTo(ErrorCode.ACCOUNT_ALREADY_EXISTS.name()))))
-                .andExpect(jsonPath("$.message", is(equalTo(ErrorCode.ACCOUNT_ALREADY_EXISTS.message))));
+                .andExpect(jsonPath("$.message", is(equalTo(ErrorCode.ACCOUNT_ALREADY_EXISTS.message))))
+                .andDo(document("account-join-fail-duplicate-account", getDocumentRequest(), getDocumentResponse(),
+                        requestFields(
+                                fieldWithPath("userId").type(JsonFieldType.STRING).description("로그인 아이디"),
+                                fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
+                                fieldWithPath("email").type(JsonFieldType.STRING).description("이메일")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.STRING).description("실패 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("실패 메시지")
+                        )));
     }
 }
