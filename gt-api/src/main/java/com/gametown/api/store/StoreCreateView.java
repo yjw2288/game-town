@@ -1,13 +1,12 @@
 package com.gametown.api.store;
 
-import com.gametown.account.domain.AccountDto;
-import com.gametown.store.domain.StoreDto;
+import com.gametown.api.account.AccountView;
 import lombok.Builder;
 import lombok.Getter;
 
 @Builder
 @Getter
 public class StoreCreateView {
-    private final AccountDto masterAccountDto;
-    private final StoreDto storeDto;
+    private final AccountView masterAccount;
+    private final StoreView store;
 }

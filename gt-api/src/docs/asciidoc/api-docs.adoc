@@ -1,4 +1,4 @@
-= RESTful Notes API Guide
+= GameTown Notes API Guide
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -29,6 +29,44 @@ GameTown 에서는 아래와 같은 응답코드 위주로 사용합니다.
 | `500 Internal Error`
 | 예상하지 못한 에러입니다. 발생 시, 개발팀에 문의주세요.
 |===
+
+= 공통 코드
+
+== 인증토큰 미삽입
+
+=== curl
+
+include::{snippets}/login-error-not-found-token/curl-request.adoc[]
+
+=== request body
+
+include::{snippets}/login-error-not-found-token/http-request.adoc[]
+
+=== response
+
+include::{snippets}/login-error-not-found-token/http-response.adoc[]
+
+=== response 필드
+
+include::{snippets}/login-error-not-found-token/response-fields.adoc[]
+
+== 존재하지 않는 유저
+
+=== curl
+
+include::{snippets}/login-error-not-found-user/curl-request.adoc[]
+
+=== request body
+
+include::{snippets}/login-error-not-found-user/http-request.adoc[]
+
+=== response
+
+include::{snippets}/login-error-not-found-user/http-response.adoc[]
+
+=== response 필드
+
+include::{snippets}/login-error-not-found-user/response-fields.adoc[]
 
 = 회원
 

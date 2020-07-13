@@ -3,8 +3,8 @@ package com.gametown.api.store;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gametown.account.domain.AccountDto;
 import com.gametown.account.enc.AES256Machine;
+import com.gametown.api.account.AccountView;
 import com.gametown.api.exception.ErrorController;
-import com.gametown.api.login.LoginAccount;
 import com.gametown.store.domain.StoreDto;
 import com.gametown.store.domain.StoreFormDto;
 import org.junit.Before;
@@ -60,11 +60,11 @@ public class StoreApiControllerTest {
 
     private ObjectMapper objectMapper;
 
-    private LoginAccount loginAccount;
+    private AccountDto loginAccount;
 
     @Before
     public void setup() {
-        this.loginAccount = new LoginAccount();
+        this.loginAccount = new AccountDto();
         this.mockMvc = MockMvcBuilders.standaloneSetup(storeApiController)
                 .apply(documentationConfiguration(restDocumentation))
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
@@ -72,7 +72,7 @@ public class StoreApiControllerTest {
                 .setCustomArgumentResolvers(new HandlerMethodArgumentResolver() {
                     @Override
                     public boolean supportsParameter(MethodParameter parameter) {
-                        return LoginAccount.class.equals(parameter.getParameterType());
+                        return AccountDto.class.equals(parameter.getParameterType());
                     }
 
                     @Override
@@ -104,7 +104,7 @@ public class StoreApiControllerTest {
         storeDto.setStoreCode("store code");
         storeDto.setAddress("address");
 
-        StoreCreateView storeCreateView = new StoreCreateView(accountDto, storeDto);
+        StoreCreateView storeCreateView = new StoreCreateView(AccountView.from(accountDto), StoreView.from(storeDto));
 
         when(storeApiService.create(any(), any()))
                 .thenReturn(storeCreateView);
@@ -117,13 +117,12 @@ public class StoreApiControllerTest {
                         .header("login", "abcd")
         )
                 .andExpect(status().is(200))
-                .andExpect(jsonPath("$.masterAccountDto.userId", is(equalTo(accountDto.getUserId()))))
-                .andExpect(jsonPath("$.masterAccountDto.name", is(equalTo(accountDto.getName()))))
-                .andExpect(jsonPath("$.masterAccountDto.email", is(equalTo(accountDto.getEmail()))))
-                .andExpect(jsonPath("$.storeDto.storeId", is(equalTo((int) storeDto.getStoreId()))))
-                .andExpect(jsonPath("$.storeDto.name", is(equalTo(storeDto.getName()))))
-                .andExpect(jsonPath("$.storeDto.storeCode", is(equalTo(storeDto.getStoreCode()))))
-                .andExpect(jsonPath("$.storeDto.address", is(equalTo(storeDto.getAddress()))))
+                .andExpect(jsonPath("$.masterAccount.userId", is(equalTo(accountDto.getUserId()))))
+                .andExpect(jsonPath("$.masterAccount.name", is(equalTo(accountDto.getName()))))
+                .andExpect(jsonPath("$.masterAccount.email", is(equalTo(accountDto.getEmail()))))
+                .andExpect(jsonPath("$.store.name", is(equalTo(storeDto.getName()))))
+                .andExpect(jsonPath("$.store.storeCode", is(equalTo(storeDto.getStoreCode()))))
+                .andExpect(jsonPath("$.store.address", is(equalTo(storeDto.getAddress()))))
                 .andDo(document("store-create", getDocumentRequest(), getDocumentResponse(),
                         requestHeaders(headerWithName("login").description("로그인 토큰")),
                         requestFields(
@@ -132,13 +131,12 @@ public class StoreApiControllerTest {
                                 fieldWithPath("address").type(JsonFieldType.STRING).description("주소")
                         ),
                         responseFields(
-                                fieldWithPath("masterAccountDto.userId").type(JsonFieldType.STRING).description("상점 사장님 아이디"),
-                                fieldWithPath("masterAccountDto.name").type(JsonFieldType.STRING).description("상점 사장님 이름"),
-                                fieldWithPath("masterAccountDto.email").type(JsonFieldType.STRING).description("상점 사장님 이메일"),
-                                fieldWithPath("storeDto.storeId").type(JsonFieldType.NUMBER).description("상점 아이디"),
-                                fieldWithPath("storeDto.name").type(JsonFieldType.STRING).description("상점 이름"),
-                                fieldWithPath("storeDto.storeCode").type(JsonFieldType.STRING).description("상점 코드"),
-                                fieldWithPath("storeDto.address").type(JsonFieldType.STRING).description("상점 주소")
+                                fieldWithPath("masterAccount.userId").type(JsonFieldType.STRING).description("상점 사장님 아이디"),
+                                fieldWithPath("masterAccount.name").type(JsonFieldType.STRING).description("상점 사장님 이름"),
+                                fieldWithPath("masterAccount.email").type(JsonFieldType.STRING).description("상점 사장님 이메일"),
+                                fieldWithPath("store.name").type(JsonFieldType.STRING).description("상점 이름"),
+                                fieldWithPath("store.storeCode").type(JsonFieldType.STRING).description("상점 코드"),
+                                fieldWithPath("store.address").type(JsonFieldType.STRING).description("상점 주소")
                         )));
     }
 

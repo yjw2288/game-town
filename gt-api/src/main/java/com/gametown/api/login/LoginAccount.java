@@ -1,11 +1,9 @@
 package com.gametown.api.login;
 
-import lombok.*;
+import java.lang.annotation.*;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class LoginAccount {
-    private long accountId;
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface LoginAccount {
 }

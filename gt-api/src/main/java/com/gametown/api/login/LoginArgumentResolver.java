@@ -1,5 +1,7 @@
 package com.gametown.api.login;
 
+import com.gametown.account.domain.AccountDto;
+import com.gametown.account.domain.AccountService;
 import com.gametown.account.enc.AES256Machine;
 import com.gametown.exception.ErrorCode;
 import com.gametown.exception.GameTownException;
@@ -14,10 +16,12 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class LoginArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final AES256Machine aes256Machine;
+    private final AccountService accountService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return LoginAccount.class.equals(parameter.getParameterType());
+        return parameter.hasParameterAnnotation(LoginAccount.class)
+                && AccountDto.class.equals(parameter.getParameterType());
     }
 
     @Override
@@ -26,7 +30,7 @@ public class LoginArgumentResolver implements HandlerMethodArgumentResolver {
         if (loginCode == null) {
             throw new GameTownException(ErrorCode.LOGIN_REQUIRED);
         }
-
-        return new LoginAccount(Long.parseLong(aes256Machine.aesDecode(loginCode)));
+        long loginId = Long.parseLong(aes256Machine.aesDecode(loginCode));
+        return accountService.findById(loginId).orElseThrow(() -> new GameTownException(ErrorCode.LOGIN_NOT_FOUND_ACCOUNT));
     }
 }
