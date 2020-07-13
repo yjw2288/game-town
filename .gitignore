@@ -4,8 +4,8 @@ build/
 **/static/docs/*.html
 !gradle/wrapper/gradle-wrapper.jar
 **/src/querydsl/**
-!**/src/main/**
-!**/src/test/**
+!**/src/main/java/**
+!**/src/test/resources/**
 
 ### STS ###
 .apt_generated
