@@ -1,0 +1,40 @@
+= GameTown Account Notes API Guide
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+[[overview]]
+== Overview
+
+GameTown 상점 관련 API 문서
+
+link:index.html[상위 문서]
+
+= 상점 개설
+
+== curl
+
+include::{snippets}/store-create/curl-request.adoc[]
+
+== request body
+
+include::{snippets}/store-create/http-request.adoc[]
+
+== response
+
+include::{snippets}/store-create/http-response.adoc[]
+
+== request 헤더 (로그인 토큰)
+
+include::{snippets}/store-create/request-headers.adoc[]
+
+== request 필드
+
+include::{snippets}/store-create/request-fields.adoc[]
+
+== request 필드
+
+include::{snippets}/store-create/response-fields.adoc[]
