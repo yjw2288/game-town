@@ -1,11 +1,9 @@
 HELP.md
 .gradle
 build/
-**/static/docs/*.html
+**/src/main/resources/static/docs/*.html
 !gradle/wrapper/gradle-wrapper.jar
 **/src/querydsl/**
-!**/src/main/java/**
-!**/src/test/resources/**
 
 ### STS ###
 .apt_generated
