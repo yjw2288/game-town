@@ -117,9 +117,9 @@ public class StoreApiControllerTest {
                         .header("login", "abcd")
         )
                 .andExpect(status().is(200))
-                .andExpect(jsonPath("$.masterAccount.userId", is(equalTo(accountDto.getUserId()))))
-                .andExpect(jsonPath("$.masterAccount.name", is(equalTo(accountDto.getName()))))
-                .andExpect(jsonPath("$.masterAccount.email", is(equalTo(accountDto.getEmail()))))
+                .andExpect(jsonPath("$.hostAccount.userId", is(equalTo(accountDto.getUserId()))))
+                .andExpect(jsonPath("$.hostAccount.name", is(equalTo(accountDto.getName()))))
+                .andExpect(jsonPath("$.hostAccount.email", is(equalTo(accountDto.getEmail()))))
                 .andExpect(jsonPath("$.store.name", is(equalTo(storeDto.getName()))))
                 .andExpect(jsonPath("$.store.storeCode", is(equalTo(storeDto.getStoreCode()))))
                 .andExpect(jsonPath("$.store.address", is(equalTo(storeDto.getAddress()))))
@@ -131,9 +131,9 @@ public class StoreApiControllerTest {
                                 fieldWithPath("address").type(JsonFieldType.STRING).description("주소")
                         ),
                         responseFields(
-                                fieldWithPath("masterAccount.userId").type(JsonFieldType.STRING).description("상점 사장님 아이디"),
-                                fieldWithPath("masterAccount.name").type(JsonFieldType.STRING).description("상점 사장님 이름"),
-                                fieldWithPath("masterAccount.email").type(JsonFieldType.STRING).description("상점 사장님 이메일"),
+                                fieldWithPath("hostAccount.userId").type(JsonFieldType.STRING).description("상점 사장님 아이디"),
+                                fieldWithPath("hostAccount.name").type(JsonFieldType.STRING).description("상점 사장님 이름"),
+                                fieldWithPath("hostAccount.email").type(JsonFieldType.STRING).description("상점 사장님 이메일"),
                                 fieldWithPath("store.name").type(JsonFieldType.STRING).description("상점 이름"),
                                 fieldWithPath("store.storeCode").type(JsonFieldType.STRING).description("상점 코드"),
                                 fieldWithPath("store.address").type(JsonFieldType.STRING).description("상점 주소")

@@ -28,6 +28,6 @@ public class Store {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "master_account_id", nullable = false)
-    private long masterAccountId;
+    @Column(name = "store_account_id", nullable = false)
+    private long storeAccountId;
 }

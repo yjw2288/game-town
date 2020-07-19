@@ -3,7 +3,7 @@ create table stores (
     store_code varchar(20) not null,
     name varchar(20) not null,
     address varchar(1024) not null,
-    master_account_id bigint not null,
+    host_account_id bigint not null,
     primary key(store_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

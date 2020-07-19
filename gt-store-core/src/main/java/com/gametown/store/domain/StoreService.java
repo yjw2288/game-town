@@ -25,7 +25,7 @@ public class StoreService {
         store.setStoreCode(storeFormDto.getStoreCode());
         store.setAddress(storeFormDto.getAddress());
         store.setName(storeFormDto.getName());
-        store.setMasterAccountId(accountId);
+        store.setStoreAccountId(accountId);
         Store savedStore = storeRepository.save(store);
         return StoreDto.from(savedStore);
     }

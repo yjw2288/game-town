@@ -7,6 +7,6 @@ import lombok.Getter;
 @Builder
 @Getter
 public class StoreCreateView {
-    private final AccountView masterAccount;
+    private final AccountView hostAccount;
     private final StoreView store;
 }
