@@ -80,14 +80,14 @@ public class AccountApiControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().is(200))
-                .andExpect(jsonPath("$.email", is(equalTo("한글"))))
+                .andExpect(jsonPath("$.loginToken", is(equalTo("한글"))))
                 .andDo(document("account-join", getDocumentRequest(), getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
                                 fieldWithPath("email").type(JsonFieldType.STRING).description("이메일")
                         ),
                         responseFields(
-                                fieldWithPath("email").type(JsonFieldType.STRING).description("로그인 이메일")
+                                fieldWithPath("loginToken").type(JsonFieldType.STRING).description("로그인 세션 키")
                         )));
     }
 

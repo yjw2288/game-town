@@ -2,6 +2,7 @@ package com.gametown.account.domain.join;
 
 import com.gametown.account.domain.Account;
 import com.gametown.account.domain.AccountRepository;
+import com.gametown.account.enc.AES256Machine;
 import com.gametown.account.enc.SHA2Machine;
 import com.gametown.exception.GameTownException;
 import org.junit.jupiter.api.Assertions;
@@ -30,6 +31,8 @@ public class AccountJoinServiceTest {
     private AccountRepository accountRepository;
     @Mock
     private SHA2Machine sha2Machine;
+    @Mock
+    private AES256Machine aes256Machine;
     @Captor
     private ArgumentCaptor<Account> accountArgumentCaptor;
 
@@ -52,12 +55,14 @@ public class AccountJoinServiceTest {
         JoinFormDto joinForm = joinForm();
 
         Account savedAccount = new Account();
+        savedAccount.setAccountId(1L);
         savedAccount.setEmail("userId");
         when(accountRepository.save(accountArgumentCaptor.capture()))
                 .thenReturn(savedAccount);
+        when(aes256Machine.aesEncode(1L)).thenReturn("loginToken");
 
         String savedUserId = accountJoinService.join(joinForm);
-        assertEquals(savedUserId, "userId");
+        assertEquals(savedUserId, "loginToken");
 
         Account accountCaptor = accountArgumentCaptor.getValue();
 

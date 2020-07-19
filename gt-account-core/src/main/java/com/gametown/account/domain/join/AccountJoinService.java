@@ -2,6 +2,7 @@ package com.gametown.account.domain.join;
 
 import com.gametown.account.domain.Account;
 import com.gametown.account.domain.AccountRepository;
+import com.gametown.account.enc.AES256Machine;
 import com.gametown.account.enc.SHA2Machine;
 import com.gametown.exception.ErrorCode;
 import com.gametown.exception.GameTownException;
@@ -16,18 +17,20 @@ public class AccountJoinService {
 
     private final AccountRepository accountRepository;
     private final SHA2Machine sha2Machine;
+    private final AES256Machine aes256Machine;
 
     @Transactional(value = "accountTransactionManager")
     public String join(JoinFormDto joinForm) {
         boolean existsAccount = accountRepository.findByEmail(joinForm.getEmail())
                 .isPresent();
-        if(existsAccount) {
+        if (existsAccount) {
             throw new GameTownException(ErrorCode.ACCOUNT_ALREADY_EXISTS);
         }
 
         Account account = new Account();
         account.setEmail(joinForm.getEmail());
         account.setPassword(sha2Machine.getSHA256(joinForm.getPassword()));
-        return accountRepository.save(account).getEmail();
+        long joinedAccountId = accountRepository.save(account).getAccountId();
+        return aes256Machine.aesEncode(joinedAccountId);
     }
 }

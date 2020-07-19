@@ -19,8 +19,8 @@ public class AccountApiController {
 
     @PostMapping("/join")
     public JoinView join(@RequestBody JoinFormDto joinForm) {
-        String email = accountJoinService.join(joinForm);
-        return new JoinView(email);
+        String sessionKey = accountJoinService.join(joinForm);
+        return new JoinView(sessionKey);
     }
 
     @PostMapping("/login")
