@@ -95,7 +95,6 @@ public class StoreApiControllerTest {
         AccountDto accountDto = new AccountDto();
         StoreDto storeDto = new StoreDto();
 
-        accountDto.setName("name");
         accountDto.setEmail("email");
 
         storeDto.setStoreId(1L);
@@ -117,8 +116,6 @@ public class StoreApiControllerTest {
         )
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$.hostAccount.email", is(equalTo(accountDto.getEmail()))))
-                .andExpect(jsonPath("$.hostAccount.name", is(equalTo(accountDto.getName()))))
-                .andExpect(jsonPath("$.hostAccount.email", is(equalTo(accountDto.getEmail()))))
                 .andExpect(jsonPath("$.store.name", is(equalTo(storeDto.getName()))))
                 .andExpect(jsonPath("$.store.storeCode", is(equalTo(storeDto.getStoreCode()))))
                 .andExpect(jsonPath("$.store.address", is(equalTo(storeDto.getAddress()))))
@@ -130,7 +127,6 @@ public class StoreApiControllerTest {
                                 fieldWithPath("address").type(JsonFieldType.STRING).description("주소")
                         ),
                         responseFields(
-                                fieldWithPath("hostAccount.name").type(JsonFieldType.STRING).description("상점 사장님 이름"),
                                 fieldWithPath("hostAccount.email").type(JsonFieldType.STRING).description("상점 사장님 이메일"),
                                 fieldWithPath("store.name").type(JsonFieldType.STRING).description("상점 이름"),
                                 fieldWithPath("store.storeCode").type(JsonFieldType.STRING).description("상점 코드"),

@@ -70,7 +70,6 @@ public class AccountApiControllerTest {
                 .thenReturn("한글");
 
         JoinFormDto joinForm = new JoinFormDto();
-        joinForm.setName("abc");
         joinForm.setEmail("email");
         joinForm.setPassword("password");
 
@@ -85,7 +84,6 @@ public class AccountApiControllerTest {
                 .andDo(document("account-join", getDocumentRequest(), getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
                                 fieldWithPath("email").type(JsonFieldType.STRING).description("이메일")
                         ),
                         responseFields(
@@ -99,7 +97,6 @@ public class AccountApiControllerTest {
                 .thenThrow(new GameTownException(ErrorCode.ACCOUNT_ALREADY_EXISTS));
 
         JoinFormDto joinForm = new JoinFormDto();
-        joinForm.setName("abc");
         joinForm.setEmail("email");
         joinForm.setPassword("password");
 
@@ -115,7 +112,6 @@ public class AccountApiControllerTest {
                 .andDo(document("account-join-fail-duplicate-account", getDocumentRequest(), getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
                                 fieldWithPath("email").type(JsonFieldType.STRING).description("이메일")
                         ),
                         responseFields(

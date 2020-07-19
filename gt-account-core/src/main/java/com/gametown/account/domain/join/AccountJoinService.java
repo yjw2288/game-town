@@ -27,7 +27,6 @@ public class AccountJoinService {
 
         Account account = new Account();
         account.setEmail(joinForm.getEmail());
-        account.setName(joinForm.getName());
         account.setPassword(sha2Machine.getSHA256(joinForm.getPassword()));
         return accountRepository.save(account).getEmail();
     }

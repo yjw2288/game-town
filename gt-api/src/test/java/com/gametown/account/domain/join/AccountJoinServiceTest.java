@@ -41,7 +41,6 @@ public class AccountJoinServiceTest {
     private JoinFormDto joinForm() {
         JoinFormDto joinForm = new JoinFormDto();
         joinForm.setEmail("email");
-        joinForm.setName("name");
         joinForm.setPassword(sha2Machine.getSHA256("password"));
         return joinForm;
     }
@@ -64,7 +63,6 @@ public class AccountJoinServiceTest {
 
         assertAll("accounts",
                 () -> assertEquals(accountCaptor.getEmail(), joinForm.getEmail()),
-                () -> assertEquals(accountCaptor.getName(), joinForm.getName()),
                 () -> assertEquals(accountCaptor.getPassword(), sha2Machine.getSHA256("password"))
         );
     }
