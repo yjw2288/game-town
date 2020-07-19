@@ -70,7 +70,6 @@ public class AccountApiControllerTest {
                 .thenReturn("한글");
 
         JoinFormDto joinForm = new JoinFormDto();
-        joinForm.setUserId("abc");
         joinForm.setName("abc");
         joinForm.setEmail("email");
         joinForm.setPassword("password");
@@ -82,16 +81,15 @@ public class AccountApiControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().is(200))
-                .andExpect(jsonPath("$.userId", is(equalTo("한글"))))
+                .andExpect(jsonPath("$.email", is(equalTo("한글"))))
                 .andDo(document("account-join", getDocumentRequest(), getDocumentResponse(),
                         requestFields(
-                                fieldWithPath("userId").type(JsonFieldType.STRING).description("로그인 아이디"),
                                 fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
                                 fieldWithPath("email").type(JsonFieldType.STRING).description("이메일")
                         ),
                         responseFields(
-                                fieldWithPath("userId").type(JsonFieldType.STRING).description("로그인 아이디")
+                                fieldWithPath("email").type(JsonFieldType.STRING).description("로그인 이메일")
                         )));
     }
 
@@ -101,7 +99,6 @@ public class AccountApiControllerTest {
                 .thenThrow(new GameTownException(ErrorCode.ACCOUNT_ALREADY_EXISTS));
 
         JoinFormDto joinForm = new JoinFormDto();
-        joinForm.setUserId("abc");
         joinForm.setName("abc");
         joinForm.setEmail("email");
         joinForm.setPassword("password");
@@ -117,7 +114,6 @@ public class AccountApiControllerTest {
                 .andExpect(jsonPath("$.message", is(equalTo(ErrorCode.ACCOUNT_ALREADY_EXISTS.message))))
                 .andDo(document("account-join-fail-duplicate-account", getDocumentRequest(), getDocumentResponse(),
                         requestFields(
-                                fieldWithPath("userId").type(JsonFieldType.STRING).description("로그인 아이디"),
                                 fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
                                 fieldWithPath("email").type(JsonFieldType.STRING).description("이메일")
@@ -131,10 +127,10 @@ public class AccountApiControllerTest {
     @Test
     public void testLogin() throws Exception {
         LoginFormDto loginForm = new LoginFormDto();
-        loginForm.setUserId("userId");
+        loginForm.setEmail("email");
         loginForm.setPassword("password");
 
-        when(accountLoginService.login(loginForm.getUserId(), loginForm.getPassword()))
+        when(accountLoginService.login(loginForm.getEmail(), loginForm.getPassword()))
                 .thenReturn("abcd");
 
         mockMvc.perform(
@@ -147,7 +143,7 @@ public class AccountApiControllerTest {
                 .andExpect(jsonPath("$.loginToken", is(equalTo("abcd"))))
                 .andDo(document("account-login", getDocumentRequest(), getDocumentResponse(),
                         requestFields(
-                                fieldWithPath("userId").type(JsonFieldType.STRING).description("로그인 아이디"),
+                                fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                                 fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
                         ),
                         responseFields(
@@ -158,10 +154,10 @@ public class AccountApiControllerTest {
     @Test
     public void testLoginNotExists() throws Exception {
         LoginFormDto loginForm = new LoginFormDto();
-        loginForm.setUserId("userId");
+        loginForm.setEmail("email");
         loginForm.setPassword("password");
 
-        when(accountLoginService.login(loginForm.getUserId(), loginForm.getPassword()))
+        when(accountLoginService.login(loginForm.getEmail(), loginForm.getPassword()))
                 .thenThrow(new GameTownException(ErrorCode.ACCOUNT_NOT_FOUND));
 
         mockMvc.perform(
@@ -175,7 +171,7 @@ public class AccountApiControllerTest {
                 .andExpect(jsonPath("$.message", is(equalTo(ErrorCode.ACCOUNT_NOT_FOUND.message))))
                 .andDo(document("account-login-fail-not-exist-account", getDocumentRequest(), getDocumentResponse(),
                         requestFields(
-                                fieldWithPath("userId").type(JsonFieldType.STRING).description("로그인 아이디"),
+                                fieldWithPath("email").type(JsonFieldType.STRING).description("로그인 아이디"),
                                 fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
                         ),
                         responseFields(

@@ -40,7 +40,6 @@ public class AccountJoinServiceTest {
 
     private JoinFormDto joinForm() {
         JoinFormDto joinForm = new JoinFormDto();
-        joinForm.setUserId("userId");
         joinForm.setEmail("email");
         joinForm.setName("name");
         joinForm.setPassword(sha2Machine.getSHA256("password"));
@@ -54,7 +53,7 @@ public class AccountJoinServiceTest {
         JoinFormDto joinForm = joinForm();
 
         Account savedAccount = new Account();
-        savedAccount.setUserId("userId");
+        savedAccount.setEmail("userId");
         when(accountRepository.save(accountArgumentCaptor.capture()))
                 .thenReturn(savedAccount);
 
@@ -64,7 +63,6 @@ public class AccountJoinServiceTest {
         Account accountCaptor = accountArgumentCaptor.getValue();
 
         assertAll("accounts",
-                () -> assertEquals(accountCaptor.getUserId(), joinForm.getUserId()),
                 () -> assertEquals(accountCaptor.getEmail(), joinForm.getEmail()),
                 () -> assertEquals(accountCaptor.getName(), joinForm.getName()),
                 () -> assertEquals(accountCaptor.getPassword(), sha2Machine.getSHA256("password"))
@@ -76,10 +74,10 @@ public class AccountJoinServiceTest {
     public void joinAlreadyJoined() {
         initSha();
         JoinFormDto joinForm = joinForm();
-        when(accountRepository.findByUserId("userId"))
+        when(accountRepository.findByEmail("userId"))
                 .thenReturn(Optional.of(new Account()));
 
-        joinForm.setUserId("userId");
+        joinForm.setEmail("userId");
         Assertions.assertThrows(GameTownException.class, () -> {
             accountJoinService.join(joinForm);
         });

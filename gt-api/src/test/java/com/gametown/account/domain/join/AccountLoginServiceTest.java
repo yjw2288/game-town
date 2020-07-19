@@ -41,10 +41,10 @@ public class AccountLoginServiceTest {
 
         when(sha2Machine.getSHA256("password"))
                 .thenReturn("password");
-        when(accountRepository.findByUserId("userId"))
-                .thenReturn(Optional.of(account));
         when(aes256Machine.aesEncode(1L))
                 .thenReturn("1");
+        when(accountRepository.findByEmail("userId"))
+                .thenReturn(Optional.of(account));
 
         String sessionKey = accountLoginService.login("userId", "password");
         assertEquals(sessionKey, "1");
@@ -62,7 +62,7 @@ public class AccountLoginServiceTest {
 
             when(sha2Machine.getSHA256("password"))
                     .thenReturn("password2");
-            when(accountRepository.findByUserId("userId"))
+            when(accountRepository.findByEmail("userId"))
                     .thenReturn(Optional.of(account));
 
             assertThrows(GameTownException.class, () -> {
@@ -77,7 +77,7 @@ public class AccountLoginServiceTest {
             account.setAccountId(1L);
             account.setPassword("password");
 
-            when(accountRepository.findByUserId("userId"))
+            when(accountRepository.findByEmail("userId"))
                     .thenReturn(Optional.empty());
 
             assertThrows(GameTownException.class, () -> {

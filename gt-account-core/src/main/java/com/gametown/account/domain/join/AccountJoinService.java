@@ -19,17 +19,16 @@ public class AccountJoinService {
 
     @Transactional(value = "accountTransactionManager")
     public String join(JoinFormDto joinForm) {
-        boolean existsAccount = accountRepository.findByUserId(joinForm.getUserId())
+        boolean existsAccount = accountRepository.findByEmail(joinForm.getEmail())
                 .isPresent();
         if(existsAccount) {
             throw new GameTownException(ErrorCode.ACCOUNT_ALREADY_EXISTS);
         }
 
         Account account = new Account();
-        account.setUserId(joinForm.getUserId());
         account.setEmail(joinForm.getEmail());
         account.setName(joinForm.getName());
         account.setPassword(sha2Machine.getSHA256(joinForm.getPassword()));
-        return accountRepository.save(account).getUserId();
+        return accountRepository.save(account).getEmail();
     }
 }

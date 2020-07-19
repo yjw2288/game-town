@@ -15,6 +15,8 @@ link:index.html[상위 문서]
 
 = 회원 가입
 
+회원 가입 및 로그인은 이메일과 비밀번호를 기반으로 이루어집니다.
+
 == curl
 
 include::{snippets}/account-join/curl-request.adoc[]

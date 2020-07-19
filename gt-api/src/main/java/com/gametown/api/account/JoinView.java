@@ -10,5 +10,5 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JoinView {
-    private String userId;
+    private String email;
 }

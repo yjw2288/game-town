@@ -19,14 +19,14 @@ public class AccountApiController {
 
     @PostMapping("/join")
     public JoinView join(@RequestBody JoinFormDto joinForm) {
-        String userId = accountJoinService.join(joinForm);
-        return new JoinView(userId);
+        String email = accountJoinService.join(joinForm);
+        return new JoinView(email);
     }
 
     @PostMapping("/login")
     public LoginView login(@RequestBody LoginFormDto loginFormDto) {
         String sessionKey =
-                accountLoginService.login(loginFormDto.getUserId(), loginFormDto.getPassword());
+                accountLoginService.login(loginFormDto.getEmail(), loginFormDto.getPassword());
         LoginView loginView = new LoginView();
         loginView.setLoginToken(sessionKey);
         return loginView;

@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface AccountRepository extends
         JpaRepository<Account, Long>, QuerydslPredicateExecutor<Account> {
-    Optional<Account> findByUserId(String userId);
+    Optional<Account> findByEmail(String email);
 }

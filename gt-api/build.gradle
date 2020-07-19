@@ -23,7 +23,7 @@ task copyRestDocs(type: Copy) {
 }
 
 bootJar {
-    dependsOn copyRestDocsOnSrc
+    dependsOn copyRestDocs, copyRestDocsOnSrc
 }
 
 bootRun {
